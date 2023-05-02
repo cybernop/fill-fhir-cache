@@ -1,0 +1,34 @@
+name: "Fill FHIR Cache"
+description: "Download and fills the local FHIR cache using FSH sushi and Firely Terminal"
+inputs:
+  project-dir:
+    description: "Root directory of the FSH Sushi project"
+    required: false
+    default: "."
+runs:
+  using: composite
+  steps:
+    - name: Setup NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: "6.0"
+    - name: Create temp dir and copy sushi project file
+      run: mkdir temp && cp ${{ inputs.project-dir }}/sushi-config.yaml temp/
+      shell: bash
+    - name: Install sushi locally
+      working-directory: temp
+      run: npm install fsh-sushi
+      shell: bash
+    - name: Install Firely Terminal
+      run: dotnet tool install -g firely.terminal
+      shell: bash
+    - name: Get dependencies
+      working-directory: temp
+      run: sushi .
+      shell: bash
+    - name: Inflate FHIR packages
+      run: fhir inflate-cache
+      shell: bash
