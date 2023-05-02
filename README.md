@@ -1,5 +1,29 @@
 # fill-fhir-cache
-Provides tooling to fill and inflate a local FHIR cache for a FSH project
+
+THis provides an action and a Docker image to fill and inflate a local FHIR cache for a FSH project.
+
+## Usage
+
+see [action.yaml](action.yaml)
+
+```yaml
+steps:
+  - uses: actions/checkout@v3
+  - uses: cybernop/fill-fhir-cache@v1
+    with:
+        project-dir: '.'
+  - uses: actions/setup-node@v2
+    with:
+      node-version: 18
+  - run: npm install -g fsh-sushi
+    shell: bash
+  - run: sushi
+    shell: bash
+```
+
+### Using the `project-dir` input
+
+This input sets the root directory of the FHIR project. The dependencies from the `sushi-config.yaml` are downloaded and inflated. By default the current directory is used.
 
 ## Docker
 
