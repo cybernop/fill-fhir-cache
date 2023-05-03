@@ -32,3 +32,6 @@ runs:
     - name: Inflate FHIR packages
       run: fhir inflate-cache
       shell: bash
+    - name: Remove temporary files
+      run: rm -rf temp
+      shell: bash
