@@ -11,14 +11,12 @@ steps:
   - uses: actions/checkout@v3
   - uses: cybernop/fill-fhir-cache@v1
     with:
-        project-dir: '.'
-  - uses: actions/setup-node@v2
+      project-dir: "."
+  - uses: cybernop/build-fhir-profiles@v1
     with:
+      sushi-version: 2.10.1
       node-version: 18
-  - run: npm install -g fsh-sushi
-    shell: bash
-  - run: sushi
-    shell: bash
+      project-dir: "."
 ```
 
 ### Using the `project-dir` input
